@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khalid Mahrous - Digital Resume</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Courier New', monospace;
+            background-color: #121212;
+            color: #00ff00;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-header {
+            padding: 10px;
+            border-bottom: 1px solid #00ff00;
+            margin-bottom: 10px;
+        }
+        
+        .terminal-header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .terminal-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .command-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #00ff00;
+            align-items: center;
+        }
+        
+        .prompt {
+            color: #00ff00;
+            margin-right: 10px;
+        }
+        
+        #command {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+        
+        .output-line {
+            margin: 5px 0;
+            white-space: pre-wrap;
+        }
+        
+        .command-line {
+            display: flex;
+            margin: 5px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+        
+        .section {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .section h2 {
+            color: #ffcc00;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ffcc00;
+            padding-bottom: 5px;
+        }
+        
+        .section h3 {
+            color: #ff9900;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .item {
+            margin-bottom: 15px;
+        }
+        
+        .date {
+            color: #cccccc;
+            font-style: italic;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        ul li:before {
+            content: "- ";
+            color: #00ff00;
+        }
+        
+        .skill-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .skill-name {
+            width: 120px;
+            margin-right: 10px;
+            text-align: right;
+        }
+        
+        .skill-bar {
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+        
+        .skill-tag-lit {
+            color: #00ff00;
+        }
+        
+        .skill-tag-dim {
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="terminal-header">
+            <h1>Khalid Mahrous</h1>
+        </div>
+        <div class="terminal-content" id="terminal">
+            <div class="output-line">Hi, I am Khalid Mahrous, welcome to my digital resume.</div>
+            <div class="output-line">Type <span style="color: #ffcc00">ls</span> to continue...</div>
+        </div>
+        <div class="command-input">
+            <span class="prompt">khalid@resume:~$</span>
+            <input type="text" id="command" autofocus>
+        </div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commandInput = document.getElementById('command');
+        
+        // Resume data
+        const resumeData = {
+            profile: {
+                name: "Khalid Mahrous",
+                title: "Software Engineer",
+                about: "a Software Engineer with a passion for crafting innovative technology solutions. My journey in the tech industry began with a fascination for problem-solving and a desire to create impactful software. Over the years, I've honed my skills and expertise, working on diverse projects that have challenged and inspired me. From designing scalable backend systems to leading cross-functional teams, I've had the privilege of contributing to projects that have made a real difference. ",
+                contact: {
+                    email: "kmmbhassan@gmail.com",
+                    phone: "+447904973156 || +96551527442",
+                    linkedin: "https://www.linkedin.com/in/khalid-mahrous-091b07187/",
+                    github: "github.com/Mahrous-28"
+                }
+            },
+            education: [
+                {
+                    institution: "University of Sheffield",
+                    degree: "Bachelor of Engineering in Software Engineering",
+                    date: "2019 - 2022",
+                    details: "Specialized in software engineering, System Design and Software Testing."
+                },
+                
+            ],
+            experience: [
+                {
+                    company: "Digital Processing Systems.",
+                    position: "Software Engineer - Backend and infrastructure",
+                    date: "April 2023 - Present",
+                    responsibilities: [
+                        "Built and scaled Client Approval Management System using Java, Spring Boot, JSF, and Hibernate, cutting application response time by 40% through optimized Oracle Database queries and access patterns.",
+                        "Developed and maintained SOAP web services with WSDL contracts enabling seamless integration with enterprise client systems processing 5K+ daily transactions.",
+                        "Modernized legacy systems to SOA architecture, focusing on maintainable and scalable design patterns.",
+                        "Led technical discussions with key stakeholders and business partners, translating complex requirements into scalable solutions while maintaining client satisfaction across multiple enterprise projects.",
+                    ]
+                },
+                {
+                    company: "3D Printing Labs",
+                    position: "Software Engineering Intern",
+                    date: "Sept 2022 - March 2023",
+                    responsibilities: [
+                        "Assisted the development and maintenance of a scalable Django backend infrastructure for a 3D printing platform. Optimized database administration, improving query processing efficiency by 20%.",
+                        "Designed and implemented high-performance data retrieval and storage mechanisms for KB8 deployment, achieving a 30% increase in 3D design upload speeds.",
+                        "Developed asynchronous queue-based microservice to handle high computational load for the price calculation process."
+                    ]
+                },
+
+                {
+                    company: "University of Sheffield",
+                    position: "International Engineering Ambassador",
+                    date: "Feb 2022 - June 2022",
+                    responsibilities: [
+                        "Performed presentations about the Faculty of Engineering to students in schools",
+                        "Worked with colleagues to publish online articles.",
+                        "Mentoring and assisting international students in their application to the University."
+                    ]
+                }
+            ],
+            projects: [
+
+                    {
+            name: "Dissertation Project: Regression Test Suite Reduction",
+            technologies: "Java, Maven, SpringBoot, EvoSuite, LamdaTest, TestComplete, Randoop, JaCoCo",
+            description: "Implemented Test Suite Reduction algorithms on large maven projects to reduce size of test suites and reducing time and cost of testing. Applied test code coverage tools on Java projects to test and improve the efficiency of the algorithms. Achieved successful reduction on 4 Java projects without affecting code coverage."
+                    },
+
+                {
+                    name: "Attendance Monitoring",
+                    technologies: "Ruby on Rails, HTMLL, CSS, JavaScript",
+                    description: "Spearheaded the development and deployment of a Ruby on Rails attendance monitoring software with a 6-person team. This automated workflows and reduced manual processing time by 40% for a 200-person department. Demonstrated strong communication skills by effectively leading and coordinating project development through regular team meetings and clear client presentations.",
+                    
+                    
+                },
+
+                {
+                    name: "System Design and Security",
+                    technologies: "Java, JDBC, Java Security, SQL",
+                    description: "Created an information system to manage registration and progression of students. Utilized Git and GitHub for managing project versions, facilitating collaboration, and streamlined deployments through automation. Designed the database of the application using UML diagrams.",
+                   
+                },
+
+                {
+                    name: "Robotics",
+                    technologies: "Python, ROS, actionLib",
+                    description: " Hands-on experience with using Linux and ROS. Implemented Python skills and navigation algorithms traverse a maze. Programmed for object detection, colour detection, along with obstacle avoidance."
+                }
+                
+            ],
+            technicalSkills: {
+                programmingLanguages: [
+                    { name: "Python", level: 20 },
+                    { name: "Java", level: 20 },
+                    { name: "Ruby", level: 15 },
+                    { name: "JavaScript", level: 18 },
+                    { name: "TypeScript", level: 15 },
+                    { name: "C++", level: 10 },
+                    { name: "C", level: 12 },
+                    { name: "HTML", level: 20 },
+                    { name: "CSS", level: 17 }
+                ],
+                frameworks: ["React", "Node.js", "Cypress", "Django", "Flask", "JOGL, JSF, Hibernate, SpringBoot"],
+                databases: ["Oracle", "MySQL", "PostgreSQL", "Microsoft SQL Server"],
+                tools: ["Git", "Docker", "AWS", "Kubernetes", "Jenkins", "VS Code"]
+            }
+        };
+
+        // Available commands
+        const commands = {
+            ls: () => {
+                return "Available sections:\n\nprofile\neducation\nexperience\nprojects\ntechnical-skills\ncontact\nhelp";
+            },
+            profile: () => {
+                const profile = resumeData.profile;
+                return `<div class="section">
+                    <h2>${profile.name} - ${profile.title}</h2>
+                    <p>${profile.about}</p>
+                </div>`;
+            },
+            education: () => {
+                let output = `<div class="section"><h2>Education</h2>`;
+                resumeData.education.forEach(edu => {
+                    output += `<div class="item">
+                        <h3>${edu.degree}</h3>
+                        <div class="date">${edu.institution} | ${edu.date}</div>
+                        <p>${edu.details}</p>
+                    </div>`;
+                });
+                output += `</div>`;
+                return output;
+            },
+            experience: () => {
+                let output = `<div class="section"><h2>Work Experience</h2>`;
+                resumeData.experience.forEach(exp => {
+                    output += `<div class="item">
+                        <h3>${exp.position}</h3>
+                        <div class="date">${exp.company} | ${exp.date}</div>
+                        <ul>`;
+                    exp.responsibilities.forEach(resp => {
+                        output += `<li>${resp}</li>`;
+                    });
+                    output += `</ul></div>`;
+                });
+                output += `</div>`;
+                return output;
+            },
+            projects: () => {
+                let output = `<div class="section"><h2>Projects</h2>`;
+                resumeData.projects.forEach(project => {
+                    output += `<div class="item">
+                        <h3>${project.name}</h3>
+                        <div class="date">Technologies: ${project.technologies}</div>
+                        <p>${project.description}</p>
+                    </div>`;
+                });
+                output += `</div>`;
+                return output;
+            },
+            "technical-skills": () => {
+                let output = `<div class="section"><h2>Technical Skills</h2>`;
+                
+                output += `<div class="item">
+                    <h3>Programming Languages</h3>`;
+                
+                resumeData.technicalSkills.programmingLanguages.forEach(lang => {
+                    const totalTags = 20;
+                    const litTags = lang.level;
+                    const dimTags = totalTags - litTags;
+                    
+                    output += `<div class="skill-container">
+                        <span class="skill-name">${lang.name} :</span>
+                        <span class="skill-bar">{<span class="skill-tag-lit">${'#'.repeat(litTags)}</span><span class="skill-tag-dim">${'#'.repeat(dimTags)}</span>}</span>
+                    </div>`;
+                });
+                
+                output += `<h3>Frameworks & Libraries</h3>
+                    <p>${resumeData.technicalSkills.frameworks.join(", ")}</p>`;
+                
+                output += `<h3>Databases</h3>
+                    <p>${resumeData.technicalSkills.databases.join(", ")}</p>`;
+                
+                output += `<h3>Tools & Platforms</h3>
+                    <p>${resumeData.technicalSkills.tools.join(", ")}</p>`;
+                
+                output += `</div>`;
+                return output;
+            },
+            contact: () => {
+                const contact = resumeData.profile.contact;
+                return `<div class="section">
+                    <h2>Contact Information</h2>
+                    <p>Email: <a href="mailto:${contact.email}" style="color: #00ffff;">${contact.email}</a></p>
+                    <p>Phone: ${contact.phone}</p>
+                    <p>LinkedIn: <a href="https://${contact.linkedin}" target="_blank" style="color: #00ffff;">${contact.linkedin}</a></p>
+                    <p>GitHub: <a href="https://${contact.github}" target="_blank" style="color: #00ffff;">${contact.github}</a></p>
+                </div>`;
+            },
+            clear: () => {
+                terminal.innerHTML = '';
+                return '';
+            },
+            help: () => {
+                return `<div class="section">
+                    <h2>Available Commands</h2>
+                    <ul>
+                        <li><strong>ls</strong> - List all available sections</li>
+                        <li><strong>profile</strong> - Display my professional profile</li>
+                        <li><strong>education</strong> - Show my educational background</li>
+                        <li><strong>experience</strong> - Display my work experience</li>
+                        <li><strong>projects</strong> - Show my notable projects</li>
+                        <li><strong>technical-skills</strong> - List my technical skills</li>
+                        <li><strong>contact</strong> - Display my contact information</li>
+                        <li><strong>clear</strong> - Clear the terminal screen</li>
+                        <li><strong>help</strong> - Show this help message</li>
+                    </ul>
+                </div>`;
+            }
+        };
+
+        // Process commands
+        function processCommand(cmd) {
+            cmd = cmd.trim().toLowerCase();
+            
+            if (cmd === '') return '';
+            
+            if (commands[cmd]) {
+                return commands[cmd]();
+            } else {
+                return `Command not found: ${cmd}. Type <span style="color: #ffcc00">help</span> for available commands.`;
+            }
+        }
+
+        // Handle command input
+        commandInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value;
+                
+                // Display the command
+                const commandLineDiv = document.createElement('div');
+                commandLineDiv.className = 'command-line';
+                commandLineDiv.innerHTML = `<span class="prompt">khalid@resume:~$</span> ${cmd}`;
+                terminal.appendChild(commandLineDiv);
+                
+                // Process and display output
+                const output = processCommand(cmd);
+                const outputDiv = document.createElement('div');
+                outputDiv.className = 'output-line';
+                outputDiv.innerHTML = output;
+                terminal.appendChild(outputDiv);
+                
+                // Clear input and scroll to bottom
+                this.value = '';
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        });
+
+        // Focus on input when page loads
+        window.onload = function() {
+            commandInput.focus();
+        };
+
+        // Focus on input when clicking anywhere on the terminal
+        document.querySelector('.container').addEventListener('click', function() {
+            commandInput.focus();
+        });
+    </script>
+</body>
+</html>
