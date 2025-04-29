@@ -161,8 +161,8 @@
             <h1>Khalid Mahrous</h1>
         </div>
         <div class="terminal-content" id="terminal">
-            <div class="output-line">Hi, I am Khalid Mahrous, welcome to my digital resume.</div>
-            <div class="output-line">Type <span style="color: #ffcc00">ls</span> to continue...</div>
+            <div class="output-line" id="intro-text"></div>
+            <div class="output-line" id="ls-instruction" style="display: none;"></div>
         </div>
         <div class="command-input">
             <span class="prompt">khalid@resume:~$</span>
@@ -193,8 +193,7 @@
                     degree: "Bachelor of Engineering in Software Engineering",
                     date: "2019 - 2022",
                     details: "Specialized in software engineering, System Design and Software Testing."
-                },
-                
+                }
             ],
             experience: [
                 {
@@ -205,7 +204,7 @@
                         "Built and scaled Client Approval Management System using Java, Spring Boot, JSF, and Hibernate, cutting application response time by 40% through optimized Oracle Database queries and access patterns.",
                         "Developed and maintained SOAP web services with WSDL contracts enabling seamless integration with enterprise client systems processing 5K+ daily transactions.",
                         "Modernized legacy systems to SOA architecture, focusing on maintainable and scalable design patterns.",
-                        "Led technical discussions with key stakeholders and business partners, translating complex requirements into scalable solutions while maintaining client satisfaction across multiple enterprise projects.",
+                        "Led technical discussions with key stakeholders and business partners, translating complex requirements into scalable solutions while maintaining client satisfaction across multiple enterprise projects."
                     ]
                 },
                 {
@@ -218,7 +217,6 @@
                         "Developed asynchronous queue-based microservice to handle high computational load for the price calculation process."
                     ]
                 },
-
                 {
                     company: "University of Sheffield",
                     position: "International Engineering Ambassador",
@@ -231,34 +229,26 @@
                 }
             ],
             projects: [
-
-                    {
-            name: "Dissertation Project: Regression Test Suite Reduction",
-            technologies: "Java, Maven, SpringBoot, EvoSuite, LamdaTest, TestComplete, Randoop, JaCoCo",
-            description: "Implemented Test Suite Reduction algorithms on large maven projects to reduce size of test suites and reducing time and cost of testing. Applied test code coverage tools on Java projects to test and improve the efficiency of the algorithms. Achieved successful reduction on 4 Java projects without affecting code coverage."
-                    },
-
+                {
+                    name: "Dissertation Project: Regression Test Suite Reduction",
+                    technologies: "Java, Maven, SpringBoot, EvoSuite, LamdaTest, TestComplete, Randoop, JaCoCo",
+                    description: "Implemented Test Suite Reduction algorithms on large maven projects to reduce size of test suites and reducing time and cost of testing. Applied test code coverage tools on Java projects to test and improve the efficiency of the algorithms. Achieved successful reduction on 4 Java projects without affecting code coverage."
+                },
                 {
                     name: "Attendance Monitoring",
                     technologies: "Ruby on Rails, HTMLL, CSS, JavaScript",
-                    description: "Spearheaded the development and deployment of a Ruby on Rails attendance monitoring software with a 6-person team. This automated workflows and reduced manual processing time by 40% for a 200-person department. Demonstrated strong communication skills by effectively leading and coordinating project development through regular team meetings and clear client presentations.",
-                    
-                    
+                    description: "Spearheaded the development and deployment of a Ruby on Rails attendance monitoring software with a 6-person team. This automated workflows and reduced manual processing time by 40% for a 200-person department. Demonstrated strong communication skills by effectively leading and coordinating project development through regular team meetings and clear client presentations."
                 },
-
                 {
                     name: "System Design and Security",
                     technologies: "Java, JDBC, Java Security, SQL",
-                    description: "Created an information system to manage registration and progression of students. Utilized Git and GitHub for managing project versions, facilitating collaboration, and streamlined deployments through automation. Designed the database of the application using UML diagrams.",
-                   
+                    description: "Created an information system to manage registration and progression of students. Utilized Git and GitHub for managing project versions, facilitating collaboration, and streamlined deployments through automation. Designed the database of the application using UML diagrams."
                 },
-
                 {
                     name: "Robotics",
                     technologies: "Python, ROS, actionLib",
-                    description: " Hands-on experience with using Linux and ROS. Implemented Python skills and navigation algorithms traverse a maze. Programmed for object detection, colour detection, along with obstacle avoidance."
+                    description: "Hands-on experience with using Linux and ROS. Implemented Python skills and navigation algorithms traverse a maze. Programmed for object detection, colour detection, along with obstacle avoidance."
                 }
-                
             ],
             technicalSkills: {
                 programmingLanguages: [
@@ -364,7 +354,7 @@
                     <h2>Contact Information</h2>
                     <p>Email: <a href="mailto:${contact.email}" style="color: #00ffff;">${contact.email}</a></p>
                     <p>Phone: ${contact.phone}</p>
-                    <p>LinkedIn: <a href="https://${contact.linkedin}" target="_blank" style="color: #00ffff;">${contact.linkedin}</a></p>
+                    <p>LinkedIn: <a href="${contact.linkedin}" target="_blank" style="color: #00ffff;">${contact.linkedin}</a></p>
                     <p>GitHub: <a href="https://${contact.github}" target="_blank" style="color: #00ffff;">${contact.github}</a></p>
                 </div>`;
             },
@@ -427,9 +417,54 @@
             }
         });
 
-        // Focus on input when page loads
+        // Type animation function
+        function typeWriter(text, elementId, speed, onComplete) {
+            const element = document.getElementById(elementId);
+            let i = 0;
+            element.innerHTML = "";
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (onComplete) {
+                    onComplete();
+                }
+            }
+            
+            type();
+        }
+        
+        // Create an HTML version of text with colored parts
+        function createColoredHTML(text, coloredParts) {
+            let result = text;
+            for (const [word, color] of Object.entries(coloredParts)) {
+                const regex = new RegExp(word, 'g');
+                result = result.replace(regex, `<span style="color: ${color}">${word}</span>`);
+            }
+            return result;
+        }
+        
+        // Focus on input when page loads and start the animation
         window.onload = function() {
             commandInput.focus();
+            
+            // Start typing animation for intro text
+            typeWriter("Hi, I am Khalid Mahrous, welcome to my digital resume.", "intro-text", 50, function() {
+                // After intro finishes typing, show the ls instruction
+                setTimeout(function() {
+                    document.getElementById("ls-instruction").style.display = "block";
+                    // Start typing the ls instruction
+                    typeWriter("Type ls or help to continue...", "ls-instruction", 50, function() {
+                        // After finishing typing, add color to 'ls' and 'help'
+                        document.getElementById("ls-instruction").innerHTML = createColoredHTML(
+                            "Type ls or help to continue...", 
+                            {"ls": "#ffcc00", "help": "#ffcc00"}
+                        );
+                    });
+                }, 500);
+            });
         };
 
         // Focus on input when clicking anywhere on the terminal
